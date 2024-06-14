@@ -1,8 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SearchResponse, Gif } from '../interfaces/gifs.interfaces';
+
 
 @Injectable({ providedIn: 'root' })
 export class GifsService {
+
+  public gifList: Gif[] = [];
+
 
   private _tagsHistory: string[] = [];
   private apiKey: string = "QnfmJFzCv3CR77dQGpNaNhQmjPs7Yi2a";
@@ -36,22 +41,17 @@ export class GifsService {
       .set('q', tag);
 
     //observable
-    this.http.get(`${this.serviceUrl}/search?`,{params})
+    this.http.get<SearchResponse>(`${this.serviceUrl}/search?`, { params })
       .subscribe(
         resp => {
-          console.log(resp);
+
+          this.gifList = resp.data;
+
+          console.log({ gifs: this.gifList })
         }
       )
 
-    /* otras formas de llamar a la API con js:
-    1.-
-    fetch('http://api.giphy.com/v1/gifs/search?api_key=QnfmJFzCv3CR77dQGpNaNhQmjPs7Yi2a&q=valorant&limit=10')
-      .then(resp => resp.json())
-      .then(data => console.log(data));
-    2.-
-      const resp = await fetch('http://api.giphy.com/v1/gifs/search?api_key=QnfmJFzCv3CR77dQGpNaNhQmjPs7Yi2a&q=valorant&limit=10');
-      const data = await resp.json();
-      console.log(data);    */
+
 
   }
 }
