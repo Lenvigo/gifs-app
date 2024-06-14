@@ -47,7 +47,7 @@ export class GifsService {
 
           this.gifList = resp.data;
 
-          console.log({ gifs: this.gifList })
+          //console.log({ gifs: this.gifList })
         }
       )
 
